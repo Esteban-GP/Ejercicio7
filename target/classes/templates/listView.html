@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <title>Empleado CRUD</title>
+  </head>
+  <body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+    <div class="container">
+      <div class="row justify-content-center">
+          <h1>Listado de empleados</h1>
+  <!--  
+    Recibo el objeto findForm de @GetMapping("/", "/list"), de @GetMapping("/findByName") y de @GetMapping("/findByGenero/{genero}"), 
+  -->
+          <form method="post" action="#" th:action="@{/findByName}"
+              th:object="${findForm}">
+              <label>Buscar por nombre:<input type="text" name="nombre" th:field="*{nombre}" /></label>
+              <input class="btn btn-primary" type="submit" value="Buscar"/>
+          </form><br/>
+          <div class="col-sd-4">
+            Filtro por género:
+            <select id="genero" onChange="changeGenero();">
+              <option value="">Todos</option>             
+              <option th:each="gen : ${T(com.example.myapp.domain.Genero).values()}"  
+                  th:value="${gen}" th:text="${gen}"
+                  th:selected="${gen} == ${generoSeleccionado} ? true : false"></option>
+           </select>
+          </div> <br>
+          
+          <div class="col-sd-4">
+            Filtro por Departamento:
+            <select id="departamento" onChange="changeDepartamento();">
+              <option value="">Todos</option>             
+              <option th:each="departamento : ${listaDepartamentos}"  
+                  th:value="${departamento.nombre}" th:text="${departamento.nombre}"
+                  th:selected="${departamento.nombre} == ${departamentoSeleccionado} ? true : false"></option>
+           </select>
+          </div>
+          <!--Enlace a @GetMapping("/")-->
+           <a th:href="@{/}">Reestablecer</a>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th><th>Nombre</th><th>Email</th><th>Departamento</th><th>Salario</th>
+                <th>Activo</th><th>Género</th><th>Editar</th><th>Borrar</th>
+            </thead>
+            <tbody>
+              <tr th:each="empleado : ${listaEmpleados}">
+                <td th:text="${empleado.id}">Id</td>
+                <td><a th:href="@{/{id}(id=${empleado.id})}" th:text="${empleado.nombre}">nombre</a></td>
+                <td th:text="${empleado.email}">email@gmail.com</td>
+                <td th:text="${empleado.departamento.getNombre}">departamento</td>
+                <td th:text="${empleado.salario}">0</td>
+                <td th:text="${empleado.enActivo}">bool</td>
+                <td th:text="${empleado.genero}">genero</td>
+                <!--Enlace a @GetMapping("/editar/{id}"))-->
+                <td><a class="btn btn-info" th:href="@{/editar/{id}(id=${empleado.id})}">Editar</a></td>      
+                <!--Enlace a @GetMapping("/borrar/{id}")-->    		
+                <td><a class="btn btn-danger" th:href="@{/borrar/{id}(id=${empleado.id})}">Borrar</a></td>        		
+              </tr>
+            </tbody>
+          </table>
+          <p class="alert alert-info" th:if="${msg!=null}">
+            <span th:text="${msg}">err</span>
+          </p>    
+        </div>
+         <!--Enlace a @GetMapping("/nuevo")-->
+        <a class="btn btn-primary" th:href="@{/nuevo}">Nuevo empleado</a><br/>
+      </div>
+
+    <!-- Para filtrar por género--->
+      <script>
+        function changeGenero(){
+              const select = document.getElementById("genero");
+              if (select.value == "")
+                window.location.href = "/";
+              else
+                window.location.href = "/findByGenero/"+select.value; //Concatena el valor seleccionado. Se convierte en una PathVariable
+        }
+
+        function changeDepartamento(){
+              const select = document.getElementById("departamento");
+              if (select.value == "")
+                window.location.href = "/";
+              else
+                window.location.href = "/findByDepartamento/"+select.value; //Concatena el valor seleccionado. Se convierte en una PathVariable
+        }
+        </script>
+        <!--------------------------------------------->
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <title>Empleado CRUD</title>
+    <style>.cssError{ background-color:red; }</style>
+  </head>
+  <body>
+    <h1>Nuevo empleado</h1>
+     <!-- Al enviar el formulario voy a @PostMapping("/editar/{id}/submit")-->
+     <!-- Recibo el objeto empleadoForm de @GetMapping("/nuevo") -->
+    <form method="post" action="#" th:action="@{/nuevo/submit}"
+            th:object="${empleadoForm}">
+            <label>Id:<input type="text" id="id" th:field="*{id}" /> </label><br/>
+            <label>Nombre:<input type="text" id="nombre" th:field="*{nombre}" /></label><br/>
+            
+            <div th:classappend="${#fields.hasErrors('email')} ? 'cssError'">
+               <label>Email:<input type="text" id="email" th:field="*{email}"/>
+               <span th:if="${#fields.hasErrors('email')}" 
+                     th:errors="*{email}" class=".cssError">texto error</span>  
+               </label>
+            </div><br>
+            <select id="departamento" th:field="*{departamento}">
+               <option th:each="departamento : ${listaDepartamentos}"  
+                  th:value="${departamento.nombre}" th:text="${departamento.nombre}"></option>
+            </select>
+            <br/> 
+            <br>
+            <label>Salario:<input type="number" id="salario" th:field="*{salario}" /></label><br/>
+            <label>En Activo:<input type="checkbox" id="enActivo"  th:field="*{enActivo}" ></label><br/>
+            Genero:<br/>          
+            <div th:each="gen : ${T(com.example.myapp.domain.Genero).values()}">
+                <input type="radio" name="button1" th:value="${gen}" th:text="${gen}" th:field="*{genero}" />
+            </div>
+            <input class="btn btn-primary" type="submit" value="Enviar" />
+    </form>
+    <br/>
+    <a class="btn btn-info" th:href="@{/}">Inicio</a><br/>
+  </body>
+</html>
