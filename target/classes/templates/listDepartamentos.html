@@ -24,9 +24,9 @@
                 <td th:text="${departamento.id}">Id</td>
                 <td th:text="${departamento.nombre}">nombre</td>
                 <td th:text="${departamento.descripcion}">desc</td>
-                <td><a class="btn btn-info" th:href="@{/editar/{id}(id=${departamento.id})}">Editar</a></td>      
+                <td><a class="btn btn-info" th:href="@{/editarDEP/{id}(id=${departamento.id})}">Editar</a></td>      
                 <!--Enlace a @GetMapping("/borrar/{id}")-->    		
-                <td><a class="btn btn-danger" th:href="@{/borrar/{id}(id=${departamento.id})}">Borrar</a></td>  
+                <td><a class="btn btn-danger" th:href="@{/borrarDEP/{id}(id=${departamento.id})}">Borrar</a></td>  
               </tr>
             </tbody>
           </table>

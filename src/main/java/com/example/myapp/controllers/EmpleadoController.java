@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.validation.Valid;
 
 import com.example.myapp.domain.Empleado;
-import com.example.myapp.domain.EmpleadoDTO;
 import com.example.myapp.domain.Genero;
 import com.example.myapp.domain.Departamento;
 import com.example.myapp.services.DepartamentoService;
@@ -64,22 +63,21 @@ public class EmpleadoController {
 //http://localhost:9000/nuevo
     @GetMapping("/nuevo")
     public String showNew(Model model) {
-        model.addAttribute("empleadoForm", new EmpleadoDTO());
+        model.addAttribute("empleadoForm", new Empleado());
         model.addAttribute("listaDepartamentos", departamentoService.obtenerDepartamentos());
         return "newFormView";
     }
 
 //http://localhost:9000/nuevo/submit
     @PostMapping("/nuevo/submit")
-    public String showNewSubmit(@Valid EmpleadoDTO empleadoForm,
+    public String showNewSubmit(@Valid Empleado empleadoForm,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             txtMsg = "Error en formulario";
             return "redirect:/";
         }
         try {
-            Departamento departEmp = departamentoService.obtenerPorNombre(empleadoForm.getDepartamento());
-            empleadoService.anadir(new Empleado(empleadoForm.getId(), empleadoForm.getNombre(), empleadoForm.getEmail(), departEmp, empleadoForm.getSalario(), empleadoForm.isEnActivo() ,empleadoForm.getGenero()));
+            empleadoService.anadir(empleadoForm);
             txtMsg = "Operación realizada con éxito";
         } catch (RuntimeException e) {
             txtMsg = e.getMessage();
@@ -92,7 +90,8 @@ public class EmpleadoController {
     public String showEditForm(@PathVariable long id, Model model) {
         try {
             Empleado empleado = empleadoService.obtenerPorId(id);
-            model.addAttribute("empleadoForm", empleado);   
+            model.addAttribute("empleadoForm", empleado);
+            model.addAttribute("listaDepartamentos", departamentoService.obtenerDepartamentos());
             return "editFormView";
         } catch (RuntimeException e) {
             txtMsg = e.getMessage();
@@ -159,5 +158,46 @@ public class EmpleadoController {
         model.addAttribute("findForm",new Empleado());
         model.addAttribute("departamentoSelccionado", nombreDep);
         return "listView";
+    }
+
+    //http://localhost:9000/editar/1
+    @GetMapping("/editarDEP/{id}")
+    public String showEditDEP(@PathVariable long id, Model model) {
+        try {
+            Departamento departamento = departamentoService.obtenerPorId(id);
+            model.addAttribute("departamentoForm", departamento);
+            model.addAttribute("listaDepartamentos", departamentoService.obtenerDepartamentos());
+            return "editDepartamentoView";
+        } catch (RuntimeException e) {
+            txtMsg = e.getMessage();
+            return "redirect:/";
+        }
+    }
+
+//http://localhost:9000/editar/1/submit
+    @PostMapping("/editarDEP/{id}/submit")
+    //Usamos @PathVariable para obtener el id del empleado a editar, el cual forma parte de la URL (no es un parámtero del formulario)
+    public String showEditSubmitDEP(@PathVariable Long id, @Valid Departamento departamentoForm
+            , BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            txtMsg = "Error en formulario";
+            return "redirect:/";
+        }
+        try {
+            departamentoService.editar(departamentoForm);
+            txtMsg = "Operación realizada con éxito";
+        } catch (RuntimeException e) {
+            txtMsg = e.getMessage();
+        }
+        return "redirect:/";
+    }
+
+//http://localhost:9000/borrar/1
+    @GetMapping("/borrarDEP/{id}")
+    public String showDeleteDEP(@PathVariable long id) {
+        departamentoService.borrarPorId(id);
+        txtMsg = "Operación realizada con éxito";
+        return "redirect:/";
     }
 }

@@ -21,7 +21,11 @@
                <span th:if="${#fields.hasErrors('email')}" 
                      th:errors="*{email}" class=".cssError">texto error</span>  
                </label>
-            </div> 
+            </div>
+            <select id="departamento" th:field="*{departamento}">
+              <option th:each="departamento : ${listaDepartamentos}"  
+                 th:value="${departamento.id}" th:text="${departamento.nombre}"></option>
+           </select>
             <br/>
             <label>Salario:<input type="text" id="salario" th:field="*{salario}" /></label><br/>
             <label>En Activo:<input type="checkbox" id="enActivo"  th:field="*{enActivo}" ></label><br/>

@@ -26,5 +26,18 @@ public class DepartamentoServiceImplExcep implements DepartamentoService {
     public Departamento obtenerPorNombre(String nombre) {
         Departamento departamento = departamentoRepository.findByNombre(nombre);
         return departamento;
-    }       
+    }
+
+    public Departamento obtenerPorId(Long id) {
+        Departamento departamento = departamentoRepository.findById(id).orElseThrow(() -> new RuntimeException("Departamento no encontrado"));
+        return departamento;
+    }
+
+    public void borrarPorId(Long id) {
+        departamentoRepository.deleteById(id);
+    }
+
+    public void editar(Departamento departamento) {
+        departamentoRepository.save(departamento);
+    }
 }
