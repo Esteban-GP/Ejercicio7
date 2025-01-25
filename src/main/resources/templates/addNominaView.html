@@ -12,12 +12,11 @@
   <body>
     <h1>Editar departamento</h1>
     <form method="post" action="#" 
-            th:action="@{/editarDEP/{id}/submit(id=${departamentoForm.id})}" 
-            th:object="${departamentoForm}">
-            <label>Id: </label><input id="id" th:field="*{id}" readonly/> </label> <br>
-            <label>Nombre:<input type="text" id="nombre" th:field="*{nombre}"/></label><br/>
-            <label>Descripción:<textarea type="text" id="desc" th:field="*{descripcion}" cols="30"></textarea><br>
-            </div> 
+            th:action="@{/addNomina/{id}/submit(id=${empleado.id})}" 
+            th:object="${nominaForm}">
+            <label>Id: </label><input id="id" th:field="*{id}"/> </label> <br>
+            <label>Salario:<input type="text" id="salario" th:field="*{salario}"/></label><br/>
+            <label>Fecha:<input type="text" id="fecha" th:field="*{fecha}"/></label><br/>
             <input class="btn btn-primary" type="submit" value="Enviar" />    
             <a class="btn btn-info" th:href="@{/}">Inicio</a>
     </form>

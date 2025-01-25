@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jakarta.validation.Valid;
 
 import com.example.myapp.domain.Empleado;
-import com.example.myapp.domain.Genero;
 import com.example.myapp.domain.Departamento;
 import com.example.myapp.services.DepartamentoService;
 import com.example.myapp.services.EmpleadoService;
@@ -37,6 +36,10 @@ public class DepartamentoController {
     @GetMapping("/departamentos/")
     public String getMethodName(Model model) {
         model.addAttribute("listaDepartamentos", departamentoService.obtenerDepartamentos());
+        if (txtMsg != null) {
+            model.addAttribute("msg", txtMsg);
+            txtMsg = null;
+        }
         return "listDepartamentos";
     }
 

@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 
 import com.example.myapp.domain.Empleado;
 import com.example.myapp.domain.Genero;
-import com.example.myapp.domain.Departamento;
 import com.example.myapp.services.DepartamentoService;
 import com.example.myapp.services.EmpleadoService;
 

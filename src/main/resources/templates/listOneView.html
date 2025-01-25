@@ -20,6 +20,7 @@
               <tr><td>Salario</td> <td th:text="${empleado.salario}">0</td></tr>
               <tr><td>En Activo</td><td th:text="${empleado.enActivo}">bool</td></tr>
               <tr><td>Genero</td><td th:text="${empleado.genero}">genero</td></tr>
+              <tr><td>Nominas</td><td th:text="${empleado.nominas}">Nominas</td></tr>
               <!--Enlace a @GetMapping("/editar/{id}"))-->
               <tr><td><a class="btn btn-info" th:href="@{/editar/{id}(id=${empleado.id})}">Editar</a></td>
                 <!-- Enlace a @GetMapping ("/borrar/{id}") -->

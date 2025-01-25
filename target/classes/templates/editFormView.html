@@ -32,9 +32,31 @@
             Genero:<br/>          
             <div th:each="gen : ${T(com.example.myapp.domain.Genero).values()}">
                 <input type="radio" name="button1" th:value="${gen}" th:text="${gen}" th:field="*{genero}" />
-            </div>
+            </div><br>
+
+            <label>Nominas: </label>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Salario</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tr th:each="nomina : ${empleadoForm.nominas}">
+                  <td><input type="text" th:field="*{nomina.id}" readonly/></td>
+                  <td><input type="text" th:field="*{nomina.salario}" /></td>
+                  <td><input type="text" th:field="*{nomina.fecha}" /></td>
+                  <td><a class="btn btn-info" th:href="@{/editarNOM/{id}(id=${nomina.id})}">Editar</a></td>
+                  <td><a class="btn btn-danger" th:href="@{/borrarNOM/{id}(id=${nomina.id})}">Borrar</a></td>                  
+                </tr>
+              </table>
+            <br/>
+            <a class="btn btn-info" th:href="@{/addNomina/{id}(id=${id})}">Añadir nomina</a>
             <input class="btn btn-primary" type="submit" value="Enviar" />    
             <a class="btn btn-info" th:href="@{/}">Inicio</a>
+
+
     </form>
     
   </body>
