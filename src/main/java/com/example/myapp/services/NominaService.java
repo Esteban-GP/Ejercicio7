@@ -23,4 +23,5 @@ public interface NominaService {
     Nomina obtenerPorId(Long id) throws RuntimeException;
     void editar(Nomina nomina) throws RuntimeException;
     void borrar(Long id) throws RuntimeException;
+    List<Nomina> obtenerPorEmpleado(Empleado empleado);
 }

@@ -64,6 +64,14 @@
               </tr>
             </tbody>
           </table>
+          <div>
+            <span th:if="${currentPage > 0}">
+                <a th:href="@{|/list?page=${currentPage - 1}|}">Anterior</a>
+            </span>
+            <span th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{|/list?page=${currentPage + 1}|}">Siguiente</a>
+            </span>
+          </div>
           <p class="alert alert-info" th:if="${msg!=null}">
             <span th:text="${msg}">err</span>
           </p>    

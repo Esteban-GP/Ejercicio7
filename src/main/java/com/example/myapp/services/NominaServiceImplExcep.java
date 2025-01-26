@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.myapp.domain.Empleado;
 
 import com.example.myapp.domain.Nomina;
 import com.example.myapp.repositories.NominaRepository;
@@ -34,7 +35,12 @@ public class NominaServiceImplExcep implements NominaService {
         nominaRepository.deleteById(id);
     }
 
-    public void editar(Nomina Nomina) {
-        nominaRepository.save(Nomina);
+    public void editar(Nomina nomina) {
+        nominaRepository.save(nomina);
+    }
+
+    public List<Nomina> obtenerPorEmpleado(Empleado empleado) {
+        List<Nomina> nominas = nominaRepository.findByEmpleado(empleado);
+        return nominas;
     }
 }

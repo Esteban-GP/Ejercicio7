@@ -3,9 +3,12 @@ package com.example.myapp.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.example.myapp.domain.Empleado;
 import com.example.myapp.domain.Genero;
@@ -80,5 +83,9 @@ public class EmpleadoServiceImplExcep implements EmpleadoService {
             if (empleado.getDepartamento().getNombre().equals(nombreDepartamento))
                 encontrados.add(empleado);
         return encontrados;
+    }
+
+    public Page<Empleado> obtenerTodos(Pageable pageable) {
+        return empleadoRepository.findAll(pageable);
     }
 }

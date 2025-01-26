@@ -7,12 +7,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import jakarta.validation.Valid;
 
 import com.example.myapp.domain.Empleado;
 import com.example.myapp.domain.Genero;
 import com.example.myapp.services.DepartamentoService;
 import com.example.myapp.services.EmpleadoService;
+import com.example.myapp.services.NominaService;
 
 
 
@@ -33,11 +38,18 @@ public class EmpleadoController {
     @Autowired
     public DepartamentoService departamentoService;
 
+    @Autowired
+    public NominaService nominasService;
+
     private String txtMsg;
 //http://localhost:9000
     @GetMapping({ "/", "/list" })
-    public String showList(Model model) {
-        model.addAttribute("listaEmpleados", empleadoService.obtenerTodos());
+    public String showList(Model model, @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Empleado> empleadoPage = empleadoService.obtenerTodos(pageable);
+        model.addAttribute("listaEmpleados", empleadoPage.getContent());
+        model.addAttribute("totalPages", empleadoPage.getTotalPages());
+        model.addAttribute("currentPage", page);
         model.addAttribute("listaDepartamentos", departamentoService.obtenerDepartamentos());
         model.addAttribute("findForm", new Empleado());
         if (txtMsg != null) {
@@ -91,6 +103,7 @@ public class EmpleadoController {
             Empleado empleado = empleadoService.obtenerPorId(id);
             model.addAttribute("empleadoForm", empleado);
             model.addAttribute("listaDepartamentos", departamentoService.obtenerDepartamentos());
+            model.addAttribute("listaNominas", nominasService.obtenerPorEmpleado(empleado));
             return "editFormView";
         } catch (RuntimeException e) {
             txtMsg = e.getMessage();

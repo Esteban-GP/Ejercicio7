@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.example.myapp.domain.Empleado;
 import com.example.myapp.domain.Genero;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**Creamos una interfaz EmpleadoService con los métodos que necesitamos para gestionar los empleados, para descoplar el código
 En este caso, la implementaremos en una clase EmpleadoServiceImplExcep.java que contendrá la lógica de negocio y la inyectamos en el controlador. 
@@ -28,4 +30,6 @@ public interface EmpleadoService {
     List<Empleado> buscarPorGenero(Genero genero);
 
     List<Empleado> buscarPorDepartamento(String nombreDepartamento);
+
+    Page<Empleado> obtenerTodos(Pageable pageable);
 }
