@@ -46,6 +46,8 @@ public class Main {
 			empleadoService.anadir(new Empleado(10L, "López Sánchez, Isabel", "isalopez@gmail.com", rrhh, 24000d, true,
 					Genero.FEMENINO));
 
+			System.out.println("TODO CORRECTO");
+
 		};
 	}
 
